@@ -1,4 +1,4 @@
-import { mutation } from "./_generated/server";
+import { mutation, query } from "./_generated/server";
 import { v } from "convex/values";
 
 export const seedIdeas = mutation({
@@ -40,5 +40,12 @@ export const clearIdeas = mutation({
     for (const idea of ideas) {
       await ctx.db.delete(idea._id);
     }
+  },
+});
+
+export const getIdeas = query({
+  args: {},
+  handler: async (ctx) => {
+    return await ctx.db.query("ideas").collect();
   },
 });
