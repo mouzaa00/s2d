@@ -17,4 +17,8 @@ export default defineSchema({
     ),
     votes: v.number(),
   }),
+  projects: defineTable({
+    name: v.string(),
+    slug: v.string(),
+  }).index("by_slug", ["slug"]),
 });
