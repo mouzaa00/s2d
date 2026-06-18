@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useQuery, useMutation } from "convex/react";
-import { api } from "../../../convex/_generated/api";
 import {
   Card,
   CardContent,
@@ -31,7 +30,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "~/components/ui/select";
-import type { Doc } from "../../../convex/_generated/dataModel";
+import type { Doc } from "../../../../../convex/_generated/dataModel";
+import { api } from "../../../../../convex/_generated/api";
 
 type IdeaStatus = "planned" | "in-progress" | "completed" | "under-review";
 
