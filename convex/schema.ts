@@ -2,10 +2,6 @@ import { defineSchema, defineTable } from "convex/server";
 import { v } from "convex/values";
 
 export default defineSchema({
-  tasks: defineTable({
-    text: v.string(),
-    isCompleted: v.boolean(),
-  }),
   ideas: defineTable({
     title: v.string(),
     description: v.string(),
@@ -20,5 +16,8 @@ export default defineSchema({
   projects: defineTable({
     name: v.string(),
     slug: v.string(),
-  }).index("by_slug", ["slug"]),
+    ownerId: v.string(),
+  })
+    .index("by_slug", ["slug"])
+    .index("by_ownerId", ["ownerId"]),
 });

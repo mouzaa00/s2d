@@ -1,6 +1,7 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
+import { useAuth } from "@clerk/nextjs";
 import { useMutation } from "convex/react";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -35,9 +36,9 @@ const formSchema = z.object({
 });
 
 export default function NewProjectPage() {
-  const navigate = useRouter();
+  const { isLoaded, isSignedIn } = useAuth();
+  const route = useRouter();
   const createProject = useMutation(api.projects.createProject);
-
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -46,10 +47,14 @@ export default function NewProjectPage() {
     },
   });
 
+  if (!isLoaded) return <div>Loading...</div>;
+
+  if (!isSignedIn) return redirect("/");
+
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       const projectId = await createProject(values);
-      navigate.push(`/projects/${projectId}/feature-ideas`);
+      route.push(`/projects/${projectId}/feature-ideas`);
     } catch (err) {
       form.setError("root", {
         message:
